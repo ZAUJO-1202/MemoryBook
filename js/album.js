@@ -49,7 +49,10 @@ class AlbumBook {
 
         const texture = config.coverTexture || 'leather';
         const frontFace = document.createElement('div');
-        frontFace.className = `page-face front texture-${texture}`;
+        // Only use texture class - backgroundColor will be applied separately via inline style
+        frontFace.className = `page-face front`;
+        // Apply texture as a data attribute so CSS can handle it properly
+        frontFace.dataset.texture = texture;
         frontFace.style.backgroundColor = config.coverColor || '#2D1918';
 
         const headingFont = config.fontHeading || 'Cormorant Garamond';
@@ -78,7 +81,9 @@ class AlbumBook {
 
         const texture = this.config.pageTexture || 'paper';
         const frontFace = document.createElement('div');
-        frontFace.className = `page-face front texture-${texture}`;
+        // Use dataset for texture instead of class to avoid CSS background shorthand conflicts
+        frontFace.className = 'page-face front';
+        frontFace.dataset.texture = texture;
         frontFace.dataset.memoryId = memory.id;
 
         // Apply fontBody to page content if configured
@@ -99,7 +104,6 @@ class AlbumBook {
         if (cardElement) {
             cardDOM.style.transform = `translate(${cardElement.x}px, ${cardElement.y}px) scale(${cardElement.scale || 1}) rotate(${cardElement.rotation || 0}deg)`;
             cardDOM.style.zIndex = cardElement.zIndex || 5;
-            // Apply locked/visible from saved data
             if (cardElement.locked) {
                 cardDOM.style.pointerEvents = 'none';
                 cardDOM.style.cursor = 'default';
@@ -175,7 +179,9 @@ class AlbumBook {
 
     applyGlobalStyles() {
         const ws = document.getElementById('workspace');
-        if (this.config.backgroundColor) ws.style.backgroundColor = this.config.backgroundColor;
+        if (this.config.backgroundColor) {
+            ws.style.background = this.config.backgroundColor;
+        }
 
         if (this.config.fontBody) FontLoader.load(this.config.fontBody);
 
@@ -233,14 +239,21 @@ class AlbumBook {
         const baseW = parseInt(this.config.pageWidth || 420) * 2;
         const baseH = parseInt(this.config.pageHeight || 600);
 
-        book.style.width = baseW + 'px';
+        // Use 100% width with min 100px as requested
+        book.style.width = '100%';
+        book.style.maxWidth = baseW + 'px';
         book.style.height = baseH + 'px';
+        book.style.minWidth = '100px';
 
         const doScale = () => {
-            const pad = window.innerWidth < 768 ? 6 : 20;
-            const vw = viewport.clientWidth - pad * 2;
-            const vh = viewport.clientHeight - pad * 2;
-            const scale = Math.min(vw / baseW, vh / baseH, 1.2);
+            // Use almost all available viewport width
+            const pad = window.innerWidth < 768 ? 4 : 16;
+            const vw = Math.max(100, viewport.clientWidth - pad * 2);
+            const vh = Math.max(200, viewport.clientHeight - pad - 60);
+            // Scale to fill width first, then constrain by height
+            const scaleX = vw / baseW;
+            const scaleY = vh / baseH;
+            const scale = Math.min(scaleX, scaleY, 1.2);
             book.style.transform = `scale(${scale})`;
             book.style.transformOrigin = 'center center';
         };

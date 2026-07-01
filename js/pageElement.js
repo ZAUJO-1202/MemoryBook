@@ -62,7 +62,7 @@ export class PageElement {
     }
 
     onPointerDown(e) {
-        if (!document.getElementById('app-container').classList.contains('editing-mode')) return;
+        if (!document.getElementById('app-container').classList.contains('admin-mode')) return;
         e.stopPropagation();
         e.preventDefault();
 

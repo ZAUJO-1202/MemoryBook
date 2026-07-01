@@ -154,7 +154,7 @@ export class PhotoCardTransformer {
     }
 
     onPointerDown(e) {
-        if (!document.getElementById('app-container').classList.contains('editing-mode')) return;
+        if (!document.getElementById('app-container').classList.contains('admin-mode')) return;
         
         // Ignore if handle was clicked
         if (e.target.classList.contains('transform-handle')) return;
@@ -194,7 +194,7 @@ export class PhotoCardTransformer {
     }
 
     startTransform(e, handlePos) {
-        if (!document.getElementById('app-container').classList.contains('editing-mode')) return;
+        if (!document.getElementById('app-container').classList.contains('admin-mode')) return;
         
         e.preventDefault();
         e.stopPropagation();

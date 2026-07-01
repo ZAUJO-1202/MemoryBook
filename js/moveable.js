@@ -30,7 +30,7 @@ export class MoveableElement {
     }
 
     handlePointerDown(e) {
-        if (!document.getElementById('app-container').classList.contains('editing-mode')) return;
+        if (!document.getElementById('app-container').classList.contains('admin-mode')) return;
         if (e.target.classList.contains('control-handle')) {
             this.isTransforming = true;
             this.setupTransform(e);

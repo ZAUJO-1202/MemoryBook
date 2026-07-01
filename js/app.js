@@ -49,12 +49,10 @@ class AppEngine {
         // Edit button flow: click → auth if not logged in → toggle sidebar overlay
         document.getElementById('btn-toggle-edit').addEventListener('click', () => {
             if (AuthManager.isEditable) {
-                // Toggle sidebar overlay
+                // Toggle sidebar overlay (editing-mode class)
                 Sidebar.toggle();
-                // Update button visual state
                 document.getElementById('btn-toggle-edit').classList.toggle('active-mode');
             } else {
-                // Show auth modal
                 document.getElementById('auth-modal').classList.remove('hidden');
                 document.getElementById('auth-password').focus();
             }
@@ -65,7 +63,10 @@ class AppEngine {
             if (AuthManager.validate(pass)) {
                 document.getElementById('auth-modal').classList.add('hidden');
                 document.getElementById('auth-password').value = '';
+                // Enable admin mode - allows interaction with elements
+                document.getElementById('app-container').classList.add('admin-mode');
                 document.getElementById('btn-toggle-edit').classList.add('active-mode');
+                // Open sidebar
                 Sidebar.toggle(true);
             } else {
                 MemoryModal.showToast('Clave de administrador incorrecta', 'error');
@@ -86,15 +87,16 @@ class AppEngine {
             if (e.key === 'ArrowLeft') Album.prev();
         });
 
-        // Close sidebar with Escape key
+        // Close sidebar with Escape key but keep admin-mode active
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && Sidebar.sidebar.classList.contains('visible')) {
                 Sidebar.toggle(false);
                 document.getElementById('btn-toggle-edit').classList.remove('active-mode');
+                // Keep admin-mode so elements are still interactive
             }
         });
 
-        // Close sidebar when clicking backdrop
+        // Close sidebar when clicking backdrop but keep admin-mode
         document.addEventListener('click', (e) => {
             const backdrop = document.querySelector('.editor-backdrop');
             if (backdrop && backdrop.classList.contains('visible') && e.target === backdrop) {
@@ -106,6 +108,7 @@ class AppEngine {
 
     evaluateInitialAuth() {
         if (AuthManager.checkSession()) {
+            document.getElementById('app-container').classList.add('admin-mode');
             document.getElementById('btn-toggle-edit').classList.add('active-mode');
         }
     }

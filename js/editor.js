@@ -8,6 +8,8 @@ import { AuthManager } from './auth.js';
 /**
  * Controlador de la barra lateral de edición - Overlay style (Canva/Figma)
  * Soporta locked, visible para todos los elementos incluyendo photocards
+ * IMPORTANTE: admin-mode permite interacción con elementos SIN sidebar visible
+ * editing-mode solo controla la visibilidad de la sidebar
  */
 class EditorSidebar {
     constructor() {
@@ -119,6 +121,7 @@ class EditorSidebar {
                 
                 // Close admin session, clear temporary layers
                 AuthManager.clear();
+                document.getElementById('app-container').classList.remove('admin-mode');
                 
                 // Close sidebar
                 this.toggle(false);
@@ -272,12 +275,9 @@ class EditorSidebar {
         document.getElementById('el-scale').value = elementInstance.state.scale;
         document.getElementById('el-rotation').value = elementInstance.state.rotation;
         document.getElementById('el-zindex').value = elementInstance.data.zIndex || 10;
-
-        // Color only for text elements, or default for others
         if (elementInstance.data.color) {
             document.getElementById('el-color').value = elementInstance.data.color;
         }
-        
         document.getElementById('el-text-content').value = elementInstance.data.content || '';
         document.getElementById('el-font-family').value = elementInstance.data.font || '';
 
