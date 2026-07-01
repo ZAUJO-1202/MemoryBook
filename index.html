@@ -114,16 +114,16 @@
             <div class="sidebar-content">
                 <div id="tab-global" class="tab-panel active">
                     <section class="control-group">
-                        <label>Título del Álbum</label>
-                        <input type="text" id="cfg-title">
+                        <label for="cfg-title">Título del Álbum</label>
+                        <input type="text" id="cfg-title" title="Título del álbum">
                     </section>
                     <section class="control-group">
-                        <label>Subtítulo</label>
-                        <input type="text" id="cfg-subtitle">
+                        <label for="cfg-subtitle">Subtítulo</label>
+                        <input type="text" id="cfg-subtitle" title="Subtítulo del álbum">
                     </section>
                     <section class="control-group">
-                        <label>Textura de Portada</label>
-                        <select id="cfg-cover-texture">
+                        <label for="cfg-cover-texture">Textura de Portada</label>
+                        <select id="cfg-cover-texture" title="Textura de la portada">
                             <option value="leather">Cuero Premium</option>
                             <option value="velvet">Terciopelo</option>
                             <option value="minimal">Mate Minimalista</option>
@@ -131,51 +131,51 @@
                     </section>
                     <section class="control-group row">
                         <div>
-                            <label>Color Portada</label>
-                            <input type="color" id="cfg-cover-color">
+                            <label for="cfg-cover-color">Color Portada</label>
+                            <input type="color" id="cfg-cover-color" title="Color de la portada">
                         </div>
                         <div>
-                            <label>Color Acento</label>
-                            <input type="color" id="cfg-accent-color">
+                            <label for="cfg-accent-color">Color Acento</label>
+                            <input type="color" id="cfg-accent-color" title="Color de acento">
                         </div>
                     </section>
                     <section class="control-group">
-                        <label>Color de Fondo (Workspace)</label>
-                        <input type="color" id="cfg-bg-color">
+                        <label for="cfg-bg-color">Color de Fondo (Workspace)</label>
+                        <input type="color" id="cfg-bg-color" title="Color de fondo del workspace">
                     </section>
                     <section class="control-group row">
                         <div>
-                            <label>Tipografía Títulos</label>
-                            <input type="text" id="cfg-font-heading" list="google-fonts-list-cfg" placeholder="Cormorant Garamond">
+                            <label for="cfg-font-heading">Tipografía Títulos</label>
+                            <input type="text" id="cfg-font-heading" list="google-fonts-list-cfg" placeholder="Cormorant Garamond" title="Tipografía para títulos">
                         </div>
                         <div>
-                            <label>Tipografía Cuerpo</label>
-                            <input type="text" id="cfg-font-body" list="google-fonts-list-cfg" placeholder="Caveat">
+                            <label for="cfg-font-body">Tipografía Cuerpo</label>
+                            <input type="text" id="cfg-font-body" list="google-fonts-list-cfg" placeholder="Caveat" title="Tipografía para cuerpo de texto">
                         </div>
                     </section>
                     <datalist id="google-fonts-list-cfg"></datalist>
                     <section class="control-group row">
                         <div>
-                            <label>Ancho Página (px)</label>
-                            <input type="number" id="cfg-page-width" min="300" max="600" step="10">
+                            <label for="cfg-page-width">Ancho Página (px)</label>
+                            <input type="number" id="cfg-page-width" min="300" max="600" step="10" title="Ancho de página en píxeles">
                         </div>
                         <div>
-                            <label>Alto Página (px)</label>
-                            <input type="number" id="cfg-page-height" min="400" max="900" step="10">
+                            <label for="cfg-page-height">Alto Página (px)</label>
+                            <input type="number" id="cfg-page-height" min="400" max="900" step="10" title="Alto de página en píxeles">
                         </div>
                     </section>
                     <section class="control-group">
-                        <label>Textura de Página Interior</label>
-                        <select id="cfg-page-texture">
+                        <label for="cfg-page-texture">Textura de Página Interior</label>
+                        <select id="cfg-page-texture" title="Textura de página interior">
                             <option value="paper">Papel Clásico</option>
                             <option value="linen">Lino</option>
                             <option value="vintage">Vintage</option>
                         </select>
                     </section>
                     <section class="control-group">
-                        <label>Música de Fondo (URL de Drive/Directa)</label>
-                        <input type="url" id="cfg-music-url" placeholder="https://...">
-                        <label class="checkbox-label">
+                        <label for="cfg-music-url">Música de Fondo (URL de Drive/Directa)</label>
+                        <input type="url" id="cfg-music-url" placeholder="https://..." title="URL de música de fondo">
+                        <label class="checkbox-label" for="cfg-music-autoplay">
                             <input type="checkbox" id="cfg-music-autoplay"> Autoplay al abrir
                         </label>
                     </section>
@@ -190,40 +190,40 @@
                     </div>
                     <div id="element-controls" class="hidden">
                         <section class="control-group text-only-control">
-                            <label>Contenido del Texto</label>
-                            <textarea id="el-text-content"></textarea>
+                            <label for="el-text-content">Contenido del Texto</label>
+                            <textarea id="el-text-content" title="Contenido del texto"></textarea>
                         </section>
                         <section class="control-group">
-                            <label>Tipografía</label>
-                            <input type="text" id="el-font-family" list="google-fonts-list">
+                            <label for="el-font-family">Tipografía</label>
+                            <input type="text" id="el-font-family" list="google-fonts-list" title="Tipografía del elemento">
                             <datalist id="google-fonts-list"></datalist>
                         </section>
                         <section class="control-group row">
                             <div>
-                                <label>Color</label>
-                                <input type="color" id="el-color">
+                                <label for="el-color">Color</label>
+                                <input type="color" id="el-color" title="Color del elemento">
                             </div>
                             <div>
-                                <label>Capa (z-index)</label>
-                                <input type="number" id="el-zindex" min="1" max="100">
+                                <label for="el-zindex">Capa (z-index)</label>
+                                <input type="number" id="el-zindex" min="1" max="100" title="Capa z-index">
                             </div>
                         </section>
                         <section class="control-group">
                             <label>Transformaciones Mecánicas</label>
                             <div class="slider-row">
                                 <span>Escala</span>
-                                <input type="range" id="el-scale" min="0.3" max="3" step="0.05">
+                                <input type="range" id="el-scale" min="0.3" max="3" step="0.05" title="Escala del elemento">
                             </div>
                             <div class="slider-row">
                                 <span>Rotación</span>
-                                <input type="range" id="el-rotation" min="-180" max="180" step="1">
+                                <input type="range" id="el-rotation" min="-180" max="180" step="1" title="Rotación del elemento">
                             </div>
                         </section>
                         <section class="control-group checkbox-row">
-                            <label class="checkbox-label">
+                            <label class="checkbox-label" for="el-visible">
                                 <input type="checkbox" id="el-visible" checked> Visible
                             </label>
-                            <label class="checkbox-label">
+                            <label class="checkbox-label" for="el-locked">
                                 <input type="checkbox" id="el-locked"> Bloqueado
                             </label>
                         </section>
@@ -278,7 +278,7 @@
                     <div class="form-left">
                         <div class="file-drop-zone" id="drop-zone">
                             <p>Arrastra una foto aquí o haz clic para subir</p>
-                            <input type="file" id="memory-file" accept="image/*" class="hidden">
+                            <input type="file" id="memory-file" accept="image/*" class="hidden" title="Seleccionar foto">
                             <div id="file-preview-container" class="hidden">
                                 <img id="img-form-preview" src="" alt="Vista previa">
                             </div>
@@ -286,16 +286,16 @@
                     </div>
                     <div class="form-right">
                         <div class="control-group">
-                            <label>Fecha del Suceso *</label>
-                            <input type="date" id="mem-date" required>
+                            <label for="mem-date">Fecha del Suceso *</label>
+                            <input type="date" id="mem-date" required title="Fecha del suceso">
                         </div>
                         <div class="control-group">
-                            <label>¿Qué viviste ese día? *</label>
-                            <textarea id="mem-description" required placeholder="Describe la memoria..."></textarea>
+                            <label for="mem-description">¿Qué viviste ese día? *</label>
+                            <textarea id="mem-description" required placeholder="Describe la memoria..." title="Descripción del recuerdo"></textarea>
                         </div>
                         <div class="control-group">
-                            <label>Pie de Foto (Polaroid)</label>
-                            <input type="text" id="mem-caption" placeholder="Ej: Nuestro primer viaje...">
+                            <label for="mem-caption">Pie de Foto (Polaroid)</label>
+                            <input type="text" id="mem-caption" placeholder="Ej: Nuestro primer viaje..." title="Pie de foto para la polaroid">
                         </div>
                     </div>
                 </div>
