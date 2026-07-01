@@ -3,6 +3,7 @@ import { optimizeDriveUrl } from './utils.js';
 
 /**
  * Elemento decorativo sobre una página (texto, sticker)
+ * Soporta locked, visible, zIndex
  */
 export class PageElement {
     constructor(data, parentFace, onUpdate) {
@@ -39,6 +40,16 @@ export class PageElement {
         this.applyTransform();
         this.parent.appendChild(this.el);
 
+        // Apply locked/visible state
+        if (this.data.locked) {
+            this.el.style.pointerEvents = 'none';
+            this.el.style.cursor = 'default';
+        }
+        if (this.data.visible === false) {
+            this.el.style.display = 'none';
+        }
+
+        // Only add drag if not locked
         if (!this.data.locked) {
             this.el.addEventListener('pointerdown', (e) => this.onPointerDown(e));
         }
@@ -94,6 +105,25 @@ export class PageElement {
         if (props.color !== undefined) this.el.style.color = props.color;
         if (props.content !== undefined && this.data.type === 'text') this.el.textContent = props.content;
         if (props.font !== undefined) this.el.style.fontFamily = `'${props.font}', cursive`;
+        
+        // Apply locked state
+        if (props.locked !== undefined) {
+            this.data.locked = props.locked;
+            if (props.locked) {
+                this.el.style.pointerEvents = 'none';
+                this.el.style.cursor = 'default';
+            } else {
+                this.el.style.pointerEvents = 'auto';
+                this.el.style.cursor = 'grab';
+            }
+        }
+        
+        // Apply visible state
+        if (props.visible !== undefined) {
+            this.data.visible = props.visible;
+            this.el.style.display = props.visible ? '' : 'none';
+        }
+        
         this.applyTransform();
         this.syncData();
     }

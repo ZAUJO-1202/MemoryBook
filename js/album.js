@@ -81,6 +81,12 @@ class AlbumBook {
         frontFace.className = `page-face front texture-${texture}`;
         frontFace.dataset.memoryId = memory.id;
 
+        // Apply fontBody to page content if configured
+        if (this.config.fontBody) {
+            FontLoader.load(this.config.fontBody);
+            frontFace.style.fontFamily = `'${this.config.fontBody}', cursive`;
+        }
+
         const cardComponent = new PhotoCard(memory);
         const cardDOM = cardComponent.render();
         frontFace.appendChild(cardDOM);
@@ -92,6 +98,15 @@ class AlbumBook {
         const cardElement = elements.find(el => el.type === 'photocard');
         if (cardElement) {
             cardDOM.style.transform = `translate(${cardElement.x}px, ${cardElement.y}px) scale(${cardElement.scale || 1}) rotate(${cardElement.rotation || 0}deg)`;
+            cardDOM.style.zIndex = cardElement.zIndex || 5;
+            // Apply locked/visible from saved data
+            if (cardElement.locked) {
+                cardDOM.style.pointerEvents = 'none';
+                cardDOM.style.cursor = 'default';
+            }
+            if (cardElement.visible === false) {
+                cardDOM.style.display = 'none';
+            }
         } else {
             cardDOM.classList.add('centered-card');
         }
@@ -105,7 +120,7 @@ class AlbumBook {
         this.container.appendChild(pageNode);
         this.pages.push(pageNode);
 
-        // Use new PhotoCardTransformer with rotation and scale support
+        // Use PhotoCardTransformer with rotation, scale, zIndex, locked, visible support
         new PhotoCardTransformer(cardDOM, memory, cardElement, (data) => {
             this.savePhotocardPosition(memory.id, data);
         });
@@ -146,9 +161,9 @@ class AlbumBook {
                 y: transformData.y,
                 scale: transformData.scale,
                 rotation: transformData.rotation,
-                zIndex: 5,
-                locked: false,
-                visible: true
+                zIndex: transformData.zIndex || 5,
+                locked: transformData.locked || false,
+                visible: transformData.visible !== false
             };
             elements.push(cardEl);
         } else {
@@ -222,7 +237,7 @@ class AlbumBook {
         book.style.height = baseH + 'px';
 
         const doScale = () => {
-            const pad = window.innerWidth < 768 ? 8 : 24;
+            const pad = window.innerWidth < 768 ? 6 : 20;
             const vw = viewport.clientWidth - pad * 2;
             const vh = viewport.clientHeight - pad * 2;
             const scale = Math.min(vw / baseW, vh / baseH, 1.2);
@@ -234,7 +249,6 @@ class AlbumBook {
         if (!this._resizeBound) {
             this._resizeBound = true;
             window.addEventListener('resize', doScale);
-            // Also rescale on orientation change
             window.addEventListener('orientationchange', () => setTimeout(doScale, 300));
         }
     }

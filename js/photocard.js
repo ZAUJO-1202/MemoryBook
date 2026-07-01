@@ -89,6 +89,7 @@ export class PhotoCard {
 
 /**
  * Movimiento, rotación y escala de la tarjeta en modo edición
+ * Soporta locked, visible, zIndex
  */
 export class PhotoCardTransformer {
     constructor(el, memory, savedState, onUpdate) {
@@ -102,11 +103,18 @@ export class PhotoCardTransformer {
             x: savedState ? parseFloat(savedState.x) || 0 : 0,
             y: savedState ? parseFloat(savedState.y) || 0 : 0,
             scale: savedState ? parseFloat(savedState.scale) || 1 : 1,
-            rotation: savedState ? parseFloat(savedState.rotation) || 0 : 0
+            rotation: savedState ? parseFloat(savedState.rotation) || 0 : 0,
+            zIndex: savedState ? parseInt(savedState.zIndex) || 5 : 5,
+            locked: savedState ? !!savedState.locked : false,
+            visible: savedState ? savedState.visible !== false : true
         };
         
         if (savedState) this.applyTransform();
-        this.el.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+        
+        // Only add pointer events if not locked
+        if (!this.state.locked) {
+            this.el.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+        }
         
         // Add transform handles when in edit mode
         this.addTransformHandles();
@@ -114,6 +122,10 @@ export class PhotoCardTransformer {
 
     applyTransform() {
         this.el.style.transform = `translate(${this.state.x}px, ${this.state.y}px) scale(${this.state.scale}) rotate(${this.state.rotation}deg)`;
+        this.el.style.zIndex = this.state.zIndex;
+        if (!this.state.visible) {
+            this.el.style.display = 'none';
+        }
     }
 
     addTransformHandles() {
@@ -122,13 +134,6 @@ export class PhotoCardTransformer {
         
         const handlesContainer = document.createElement('div');
         handlesContainer.className = 'transform-handles';
-        handlesContainer.style.cssText = `
-            position: absolute;
-            inset: -4px;
-            pointer-events: none;
-            z-index: 100;
-            display: none;
-        `;
         
         // Add 4 corner handles
         const positions = ['nw', 'ne', 'sw', 'se'];
@@ -136,19 +141,6 @@ export class PhotoCardTransformer {
             const handle = document.createElement('div');
             handle.className = `transform-handle handle-${pos}`;
             handle.dataset.handlePos = pos;
-            handle.style.cssText = `
-                position: absolute;
-                width: 12px;
-                height: 12px;
-                background: var(--accent-gold);
-                border: 2px solid #1a1208;
-                border-radius: 2px;
-                pointer-events: auto;
-                cursor: ${pos.includes('n') ? 'n' : 's'}${pos.includes('w') ? 'w' : 'e'}-resize;
-                ${pos.includes('n') ? 'top: -4px' : 'bottom: -4px'};
-                ${pos.includes('w') ? 'left: -4px' : 'right: -4px'};
-                z-index: 101;
-            `;
             
             handle.addEventListener('pointerdown', (e) => {
                 e.stopPropagation();
@@ -159,17 +151,6 @@ export class PhotoCardTransformer {
         });
         
         this.el.appendChild(handlesContainer);
-        
-        // Show handles when editing mode is active
-        const checkMode = () => {
-            const isEditing = document.getElementById('app-container').classList.contains('editing-mode');
-            handlesContainer.style.display = isEditing ? 'block' : 'none';
-        };
-        
-        checkMode();
-        // Re-check on edit mode changes
-        const observer = new MutationObserver(() => checkMode());
-        observer.observe(document.getElementById('app-container'), { attributes: true, attributeFilter: ['class'] });
     }
 
     onPointerDown(e) {
@@ -193,6 +174,7 @@ export class PhotoCardTransformer {
         this.startX = e.clientX - this.state.x;
         this.startY = e.clientY - this.state.y;
 
+        // Dispatch elementSelected for editor panel
         window.dispatchEvent(new CustomEvent('elementSelected', { detail: this }));
 
         const move = (ev) => {
@@ -262,7 +244,10 @@ export class PhotoCardTransformer {
                 x: this.state.x,
                 y: this.state.y,
                 scale: this.state.scale,
-                rotation: this.state.rotation
+                rotation: this.state.rotation,
+                zIndex: this.state.zIndex,
+                locked: this.state.locked,
+                visible: this.state.visible
             });
         }
     }

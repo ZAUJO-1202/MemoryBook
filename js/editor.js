@@ -7,6 +7,7 @@ import { AuthManager } from './auth.js';
 
 /**
  * Controlador de la barra lateral de edición - Overlay style (Canva/Figma)
+ * Soporta locked, visible para todos los elementos incluyendo photocards
  */
 class EditorSidebar {
     constructor() {
@@ -70,11 +71,21 @@ class EditorSidebar {
         document.getElementById('cfg-cover-texture').value = cfg.coverTexture || 'leather';
         document.getElementById('cfg-cover-color').value = cfg.coverColor || '#2D1918';
         document.getElementById('cfg-accent-color').value = cfg.accentColor || '#D4AF37';
+        document.getElementById('cfg-bg-color').value = cfg.backgroundColor || '#120B0B';
+        document.getElementById('cfg-font-heading').value = cfg.fontHeading || 'Cormorant Garamond';
+        document.getElementById('cfg-font-body').value = cfg.fontBody || 'Caveat';
+        document.getElementById('cfg-page-width').value = cfg.pageWidth || 420;
+        document.getElementById('cfg-page-height').value = cfg.pageHeight || 600;
+        document.getElementById('cfg-page-texture').value = cfg.pageTexture || 'paper';
         document.getElementById('cfg-music-url').value = cfg.musicUrl || '';
         document.getElementById('cfg-music-autoplay').checked = !!cfg.musicAutoplay;
     }
 
     setupGlobalConfig() {
+        // Populate google fonts datalist for config tab
+        const cfgFontList = document.getElementById('google-fonts-list-cfg');
+        if (cfgFontList) FontLoader.populateDataList(cfgFontList);
+        
         document.getElementById('btn-save-global').addEventListener('click', async () => {
             const btn = document.getElementById('btn-save-global');
             const status = document.getElementById('sync-status');
@@ -88,14 +99,14 @@ class EditorSidebar {
                 coverTexture: document.getElementById('cfg-cover-texture').value,
                 coverColor: document.getElementById('cfg-cover-color').value,
                 accentColor: document.getElementById('cfg-accent-color').value,
+                backgroundColor: document.getElementById('cfg-bg-color').value || '#120B0B',
+                fontHeading: document.getElementById('cfg-font-heading').value || 'Cormorant Garamond',
+                fontBody: document.getElementById('cfg-font-body').value || 'Caveat',
+                pageWidth: parseInt(document.getElementById('cfg-page-width').value) || 420,
+                pageHeight: parseInt(document.getElementById('cfg-page-height').value) || 600,
+                pageTexture: document.getElementById('cfg-page-texture').value || 'paper',
                 musicUrl: document.getElementById('cfg-music-url').value,
                 musicAutoplay: document.getElementById('cfg-music-autoplay').checked,
-                backgroundColor: Album.getConfig().backgroundColor || '#120B0B',
-                fontHeading: Album.getConfig().fontHeading || 'Cormorant Garamond',
-                fontBody: Album.getConfig().fontBody || 'Caveat',
-                pageWidth: Album.getConfig().pageWidth || 420,
-                pageHeight: Album.getConfig().pageHeight || 600,
-                pageTexture: Album.getConfig().pageTexture || 'paper',
                 photoStyle: Album.getConfig().photoStyle || 'polaroid',
                 animationSpeed: Album.getConfig().animationSpeed || 700
             };
@@ -210,6 +221,28 @@ class EditorSidebar {
             this.currentSelectedElement.syncData();
         });
 
+        // Locked checkbox
+        document.getElementById('el-locked').addEventListener('change', (e) => {
+            if (!this.currentSelectedElement) return;
+            this.currentSelectedElement.data.locked = e.target.checked;
+            if (e.target.checked) {
+                this.currentSelectedElement.el.style.cursor = 'default';
+                this.currentSelectedElement.el.style.pointerEvents = 'none';
+            } else {
+                this.currentSelectedElement.el.style.cursor = 'grab';
+                this.currentSelectedElement.el.style.pointerEvents = 'auto';
+            }
+            this.currentSelectedElement.syncData();
+        });
+
+        // Visible checkbox
+        document.getElementById('el-visible').addEventListener('change', (e) => {
+            if (!this.currentSelectedElement) return;
+            this.currentSelectedElement.data.visible = e.target.checked;
+            this.currentSelectedElement.el.style.display = e.target.checked ? '' : 'none';
+            this.currentSelectedElement.syncData();
+        });
+
         document.getElementById('btn-el-delete').addEventListener('click', () => {
             if (!this.currentSelectedElement?.el) return;
             this.currentSelectedElement.el.remove();
@@ -235,13 +268,24 @@ class EditorSidebar {
             el.classList.toggle('hidden', !isText);
         });
 
+        // Populate fields
         document.getElementById('el-scale').value = elementInstance.state.scale;
         document.getElementById('el-rotation').value = elementInstance.state.rotation;
         document.getElementById('el-zindex').value = elementInstance.data.zIndex || 10;
-        document.getElementById('el-color').value = elementInstance.data.color || '#1c1b18';
+
+        // Color only for text elements, or default for others
+        if (elementInstance.data.color) {
+            document.getElementById('el-color').value = elementInstance.data.color;
+        }
+        
         document.getElementById('el-text-content').value = elementInstance.data.content || '';
         document.getElementById('el-font-family').value = elementInstance.data.font || '';
 
+        // Locked and visible checkboxes
+        document.getElementById('el-locked').checked = !!elementInstance.data.locked;
+        document.getElementById('el-visible').checked = elementInstance.data.visible !== false;
+
+        // Switch to element tab
         document.querySelector('[data-tab="tab-element"]').click();
     }
 
