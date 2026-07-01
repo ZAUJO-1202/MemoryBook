@@ -1,0 +1,201 @@
+.photocard-container {
+    position: absolute;
+    width: clamp(150px, 28vw, 220px);
+    height: clamp(190px, 35vw, 280px);
+    perspective: 1000px;
+    cursor: grab;
+    z-index: 5;
+    touch-action: none;
+}
+
+.photocard-container:active { cursor: grabbing; }
+
+.photocard-inner {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    border-radius: 4px;
+}
+
+.photocard-container.card-flipped .photocard-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: #faf9f5;
+    color: #1c1b18;
+    padding: clamp(8px, 1.5vw, 12px);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+}
+
+.polaroid-img-holder {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    background: linear-gradient(135deg, #e2e0d9, #d5d2c8);
+    overflow: hidden;
+    position: relative;
+    border-radius: 2px;
+}
+
+.polaroid-img-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.polaroid-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    opacity: 0.35;
+}
+
+.polaroid-meta {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 6px;
+    min-height: clamp(50px, 8vw, 60px);
+}
+
+.polaroid-date {
+    font-size: clamp(0.55rem, 1.2vw, 0.62rem);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #767267;
+}
+
+.polaroid-caption {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+    margin-top: 2px;
+    font-weight: 700;
+    line-height: 1.2;
+    word-break: break-word;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    background: #f4f2ea;
+    justify-content: space-between;
+    padding: clamp(8px, 1.5vw, 12px);
+}
+
+.card-back-content {
+    font-size: clamp(0.7rem, 1.5vw, 0.82rem);
+    line-height: 1.5;
+    font-style: italic;
+    color: #2c2a24;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 4px;
+    word-break: break-word;
+}
+
+.card-back-signature {
+    width: 100%;
+    height: auto;
+    max-height: clamp(50px, 10vw, 80px);
+    object-fit: contain;
+    border-top: 1px dashed rgba(0, 0, 0, 0.12);
+    padding-top: 6px;
+    margin-top: 6px;
+    flex-shrink: 0;
+    display: block;
+}
+
+/* Transform handles for editing mode */
+.transform-handles {
+    position: absolute;
+    inset: -4px;
+    pointer-events: none;
+    z-index: 100;
+    display: none;
+}
+
+#app-container.editing-mode .transform-handles {
+    display: block;
+}
+
+.transform-handle {
+    position: absolute;
+    width: clamp(10px, 2vw, 12px);
+    height: clamp(10px, 2vw, 12px);
+    background: var(--accent-gold);
+    border: 2px solid #1a1208;
+    border-radius: 2px;
+    pointer-events: auto;
+    z-index: 101;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.transform-handle:hover {
+    transform: scale(1.2);
+}
+
+.handle-nw { top: -4px; left: -4px; cursor: nw-resize; }
+.handle-ne { top: -4px; right: -4px; cursor: ne-resize; }
+.handle-sw { bottom: -4px; left: -4px; cursor: sw-resize; }
+.handle-se { bottom: -4px; right: -4px; cursor: se-resize; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .photocard-container {
+        width: clamp(130px, 35vw, 190px);
+        height: clamp(170px, 45vw, 240px);
+    }
+
+    .polaroid-meta {
+        min-height: 45px;
+        padding-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .photocard-container {
+        width: clamp(110px, 40vw, 160px);
+        height: clamp(145px, 50vw, 200px);
+    }
+
+    .polaroid-meta {
+        min-height: 40px;
+    }
+
+    .polaroid-caption {
+        font-size: 0.8rem;
+    }
+
+    .card-back-content {
+        font-size: 0.65rem;
+    }
+
+    .card-back-signature {
+        max-height: 40px;
+    }
+}
+
+@media (max-width: 360px) {
+    .photocard-container {
+        width: clamp(90px, 42vw, 130px);
+        height: clamp(120px, 55vw, 170px);
+    }
+}

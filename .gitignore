@@ -1,0 +1,16 @@
+# OS files
+Thumbs.db
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Config (keep template, ignore local overrides)
+config/config.local.json
+
+# Logs
+*.log

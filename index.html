@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- ===== TITLE & DESCRIPTION ===== -->
+    <title>T&M - Nuestro Álbum de Recuerdos</title>
+    <meta name="description" content="Este es nuestro álbum de recuerdos, vamos a poder agregar nuestros momentos más icónicos mediante fotografías y recopilarlas en este álbum digital, así que subamos hoy el primer recuerdo y espero que digamos subiendo más y más recuerdos mi niña hermosa. Feliz primer año juntos, tal vez esto no sea la primera cosa pero lo hice con mucho amor.">
+    <meta name="keywords" content="álbum digital, recuerdos, fotos, pareja, amor, Tatiana, Mauro, memoria, álbum de fotos, digital scrapbook">
+    <meta name="author" content="Tatiana y Mauro">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="es">
+    <meta name="theme-color" content="#0a0a0c">
+    
+    <!-- ===== FAVICON - Multiplatform ===== -->
+    <!-- Standard favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png">
+    
+    <!-- Android / Chrome -->
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="T&M Álbum">
+    
+    <!-- Windows / IE -->
+    <meta name="msapplication-TileColor" content="#0a0a0c">
+    <meta name="msapplication-TileImage" content="mstile-150x150.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    
+    <!-- ===== OPEN GRAPH / SOCIAL SHARING ===== -->
+    <meta property="og:title" content="T&M - Nuestro Álbum de Recuerdos">
+    <meta property="og:description" content="Un álbum digital con nuestros momentos más icónicos. Feliz primer año juntos, hecho con mucho amor.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tualbum.com">
+    <meta property="og:image" content="https://tualbum.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="T&M - Nuestro Álbum de Recuerdos">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:site_name" content="T&M Álbum">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="T&M - Nuestro Álbum de Recuerdos">
+    <meta name="twitter:description" content="Un álbum digital con nuestros momentos más icónicos. Feliz primer año juntos, hecho con mucho amor.">
+    <meta name="twitter:image" content="https://tualbum.com/og-image.png">
+    <meta name="twitter:image:alt" content="T&M - Nuestro Álbum de Recuerdos">
+    
+    <!-- ===== STRUCTURED DATA (JSON-LD) ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "T&M - Nuestro Álbum de Recuerdos",
+        "description": "Álbum digital de recuerdos de Tatiana y Mauro. Un espacio para coleccionar momentos icónicos mediante fotografías.",
+        "author": {
+            "@type": "Person",
+            "name": "Tatiana y Mauro"
+        },
+        "inLanguage": "es",
+        "url": "https://tualbum.com"
+    }
+    </script>
+    
+    <!-- ===== FONTS ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- ===== STYLES ===== -->
+    <link rel="stylesheet" href="css/globals.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/album.css">
+    <link rel="stylesheet" href="css/photocard.css">
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+
+    <div id="app-loader" class="app-loader">
+        <div class="loader-spinner"></div>
+        <p>Cargando tu álbum...</p>
+    </div>
+
+    <div id="app-container" class="view-cover">
+        
+        <main id="workspace">
+            <div id="album-viewport">
+                <div id="book-container">
+                    </div>
+            </div>
+
+            <nav id="album-controls">
+                <button id="btn-prev" class="nav-btn" disabled>← Anterior</button>
+                <span id="page-indicator">Portada</span>
+                <button id="btn-next" class="nav-btn">Siguiente →</button>
+            </nav>
+
+            <button id="btn-toggle-edit" class="floating-edit-btn" title="Modo Edición">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+            </button>
+        </main>
+
+        <aside id="editor-sidebar" class="sidebar-hidden">
+            <div class="sidebar-header">
+                <h3>Diseño del Álbum</h3>
+                <button id="btn-close-sidebar" class="close-btn">&times;</button>
+            </div>
+
+            <div class="sidebar-tabs">
+                <button class="tab-link active" data-tab="tab-global">Álbum</button>
+                <button class="tab-link" data-tab="tab-element">Elemento</button>
+                <button class="tab-link" data-tab="tab-assets">Recursos</button>
+            </div>
+
+            <div class="sidebar-content">
+                <div id="tab-global" class="tab-panel active">
+                    <section class="control-group">
+                        <label>Título del Álbum</label>
+                        <input type="text" id="cfg-title">
+                    </section>
+                    <section class="control-group">
+                        <label>Subtítulo</label>
+                        <input type="text" id="cfg-subtitle">
+                    </section>
+                    <section class="control-group">
+                        <label>Textura de Portada</label>
+                        <select id="cfg-cover-texture">
+                            <option value="leather">Cuero Premium</option>
+                            <option value="velvet">Terciopelo</option>
+                            <option value="minimal">Mate Minimalista</option>
+                        </select>
+                    </section>
+                    <section class="control-group row">
+                        <div>
+                            <label>Color Portada</label>
+                            <input type="color" id="cfg-cover-color">
+                        </div>
+                        <div>
+                            <label>Color Acento</label>
+                            <input type="color" id="cfg-accent-color">
+                        </div>
+                    </section>
+                    <section class="control-group">
+                        <label>Música de Fondo (URL de Drive/Directa)</label>
+                        <input type="url" id="cfg-music-url" placeholder="https://...">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="cfg-music-autoplay"> Autoplay al abrir
+                        </label>
+                    </section>
+                    <div class="actions-wrapper">
+                        <button id="btn-save-global" class="primary-btn">Guardar Cambios</button>
+                    </div>
+                </div>
+
+                <div id="tab-element" class="tab-panel">
+                    <div id="no-element-selected" class="empty-state">
+                        <p>Selecciona un elemento en el lienzo para editar sus propiedades.</p>
+                    </div>
+                    <div id="element-controls" class="hidden">
+                        <section class="control-group text-only-control">
+                            <label>Contenido del Texto</label>
+                            <textarea id="el-text-content"></textarea>
+                        </section>
+                        <section class="control-group">
+                            <label>Tipografía</label>
+                            <input type="text" id="el-font-family" list="google-fonts-list">
+                            <datalist id="google-fonts-list"></datalist>
+                        </section>
+                        <section class="control-group row">
+                            <div>
+                                <label>Color</label>
+                                <input type="color" id="el-color">
+                            </div>
+                            <div>
+                                <label>Capa (z-index)</label>
+                                <input type="number" id="el-zindex" min="1" max="100">
+                            </div>
+                        </section>
+                        <section class="control-group">
+                            <label>Transformaciones Mecánicas</label>
+                            <div class="slider-row">
+                                <span>Escala</span>
+                                <input type="range" id="el-scale" min="0.5" max="3" step="0.05">
+                            </div>
+                            <div class="slider-row">
+                                <span>Rotación</span>
+                                <input type="range" id="el-rotation" min="-180" max="180" step="1">
+                            </div>
+                        </section>
+                        <div class="element-action-buttons">
+                            <button id="btn-el-lock" class="secondary-btn">Bloquear</button>
+                            <button id="btn-el-delete" class="danger-btn">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-assets" class="tab-panel">
+                    <div class="assets-grid-container">
+                        <h4>Añadir Recuerdo</h4>
+                        <button id="btn-sidebar-add-memory" class="primary-btn url-btn">+ Agregar Nueva Card</button>
+                        <hr class="divider">
+                        <h4>Stickers</h4>
+                        <div id="stickers-library" class="stickers-grid">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="history-controls">
+                    <button id="btn-undo" title="Deshacer (Ctrl+Z)">⟲</button>
+                    <button id="btn-redo" title="Rehacer (Ctrl+Y)">⟳</button>
+                </div>
+                <span id="sync-status" class="synced">Sincronizado</span>
+            </div>
+        </aside>
+    </div>
+
+    <div id="auth-modal" class="modal-backdrop hidden">
+        <div class="modal-card">
+            <h4>Acceso Modo Administrador</h4>
+            <p>Introduce la clave para desbloquear el lienzo de diseño.</p>
+            <input type="password" id="auth-password" placeholder="Contraseña de edición">
+            <div class="modal-actions">
+                <button id="btn-auth-cancel" class="secondary-btn">Cancelar</button>
+                <button id="btn-auth-confirm" class="primary-btn">Acceder</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="memory-modal" class="modal-backdrop hidden">
+        <div class="modal-card wide-modal">
+            <div class="modal-header">
+                <h4 id="memory-modal-title">Nuevo Recuerdo Colectivo</h4>
+                <button id="btn-close-memory-modal" class="close-btn">&times;</button>
+            </div>
+            <form id="memory-form">
+                <div class="form-grid">
+                    <div class="form-left">
+                        <div class="file-drop-zone" id="drop-zone">
+                            <p>Arrastra una foto aquí o haz clic para subir</p>
+                            <input type="file" id="memory-file" accept="image/*" class="hidden">
+                            <div id="file-preview-container" class="hidden">
+                                <img id="img-form-preview" src="" alt="Vista previa">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-right">
+                        <div class="control-group">
+                            <label>Fecha del Suceso *</label>
+                            <input type="date" id="mem-date" required>
+                        </div>
+                        <div class="control-group">
+                            <label>¿Qué viviste ese día? *</label>
+                            <textarea id="mem-description" required placeholder="Describe la memoria..."></textarea>
+                        </div>
+                        <div class="control-group">
+                            <label>Pie de Foto (Polaroid)</label>
+                            <input type="text" id="mem-caption" placeholder="Ej: Nuestro primer viaje...">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-canvas-section">
+                    <label>Firma o Dibujo en el Reverso</label>
+                    <div class="canvas-container">
+                        <canvas id="signature-canvas" width="450" height="150"></canvas>
+                        <div class="canvas-actions">
+                            <button type="button" id="btn-clear-canvas" class="secondary-btn btn-sm">Limpiar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="btn-cancel-memory" class="secondary-btn">Cancelar</button>
+                    <button type="submit" id="btn-save-memory" class="primary-btn">Guardar Recuerdo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop></audio>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
